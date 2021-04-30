@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "orders")
@@ -25,5 +26,6 @@ public class Order {
     @Column(name = "owner_id")
     private int ownerId;
 
-
+    @Column(name = "date")
+    private Date date = new Date();
 }
