@@ -15,4 +15,8 @@ public class WorkService {
     public List<KindOfWork> getWorks() {
         return reps.findAll();
     }
+
+    public void createKindOfWork(KindOfWork a) {
+        reps.save(a);
+    }
 }
