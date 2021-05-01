@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -28,4 +29,7 @@ public class Order {
 
     @Column(name = "date")
     private Date date = new Date();
+
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    private List<OrderWork> works;
 }

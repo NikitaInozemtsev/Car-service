@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content>
+    <meta name="author" content>
+    <title>Please sign in</title>
+    <link rel="stylesheet" href="https://snipp.ru/cdn/chosen/1.8.7/chosen.min.css">
+    <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://snipp.ru/cdn/chosen/1.8.7/chosen.jquery.min.js"></script>
+
+    <script>
+    $(document).ready(function(){
+        $('#car').chosen({
+            width: '100%',
+            no_results_text: 'Совпадений не найдено',
+            placeholder_text_single: 'Выберите машину'
+        });
+        $('#owner').chosen({
+            width: '100%',
+            no_results_text: 'Совпадений не найдено',
+            placeholder_text_single: 'Выберите клиента'
+        });
+        $('#work').chosen({
+            width: '100%',
+            no_results_text: 'Совпадений не найдено',
+            placeholder_text_single: 'Выберите услуги'
+        });
+        $('#newcar').toggle();
+        $('#newowner').toggle();
+    });
+    $(function(){
+    $('#work').change(function(e) {
+        var txt = $("#work option:selected").text();
+        console.dir(typeof(txt));
+        var a = txt.split('\n');
+        var b = new Array;
+        for (let i = 2; i < a.length; i+=4) {
+        b.push(a[i]);
+        }
+        var container = document.getElementById("container");
+            // Clear previous contents of the container
+            while (container.hasChildNodes()) {
+                container.removeChild(container.lastChild);
+            }
+        for (var i = 0; i < b.length; i++) {
+        container.appendChild(document.createTextNode(b[i] + " Цена:"));
+        var input = document.createElement("input");
+        input.required = "required";
+        input.type = "text";
+        input.name = "price";
+        //input.th:name="price";
+        container.appendChild(input);
+               // Append a line break
+        container.appendChild(document.createElement("br"));
+        }
+    });
+    });
+
+    $(function() {
+        $('#btn').click(function() {
+            $('#newcar').toggle();
+        });
+    });
+
+    $(function() {
+        $('#btn1').click(function() {
+            $('#newowner').toggle();
+        });
+    });
+
+    </script>
+    </head>
+<body>
+
+<form action="#" th:action="@{/createorder}" method="post">
+<select class="js-chosen" name="car" id="car" th:name="car" required>
+    <option value=""></option>
+    <option th:each="car : ${cars}" th:value="${car.id}">
+        <span th:text="${car.id}"></span>
+        <span th:text="${car.brand}"></span>
+        <span th:text="${car.model}"></span>
+        <span th:text="${car.technicalPassport}"></span>
+        <span th:text="${car.stateNumber}"></span>
+        <span th:text="${car.year}"></span>
+        <span th:text="${car.info}"></span>
+    </option>
+</select>
+
+    <button id="btn">Добавить машину</button>
+
+
+
+
+<select class="js-chosen" name="owner" th:name="owner" id="owner" required>
+    <option value=""></option>
+    <option th:each="owner : ${owners}" th:value="${owner.id}">
+        <span th:text="${owner.id}"></span>
+        <span th:text="${owner.FIO}"></span>
+        <span th:text="${owner.passport}"></span>
+        <span th:text="${owner.phone}"></span>
+    </option>
+</select>
+
+    <button id="btn1">Добавить клиента</button>
+
+<select class="js-chosen" multiple name="work" th:name="work" id="work" required>
+    <option value=""></option>
+    <option class="ev" th:each="work : ${works}" th:value="${work.id}">
+        <span th:text="${work.id}"></span>
+        <span th:text="${work.name}"></span>
+        <span th:text="${work.startPrice}"></span>
+    </option>
+</select>
+
+<div id="container"></div>
+
+<input type="submit" value="Отправить">
+
+</form>
+
+<form name="Машина" action="#" id="newcar" th:action="@{/createcar}" th:object="${car}" method="post">
+    <input type="text" name="username" th:field="*{brand}" class="form-control" placeholder="Марка машины" required><br>
+    <input type="text" name="model" th:field="*{model}" class="form-control" placeholder="Модель машины" required><br>
+    <input type="text" name="technicalPassport" th:field="*{technicalPassport}" class="form-control" placeholder="Тех. паспорт" required><br>
+    <input type="text" name="stateNumber" th:field="*{stateNumber}" class="form-control" placeholder="Гос. номер" required><br>
+    <input type="text" name="year" th:field="*{year}" class="form-control" placeholder="Год выпуска машины"><br>
+    <input type="text" name="info" th:field="*{info}" class="form-control" placeholder="Доп. информация"><br>
+    <input type="submit" value="Отправить"> <br>
+</form>
+
+<form name="Клиент" action="#" id="newowner" th:action="@{/createowner}" th:object="${owner}" method="post">
+    <input type="text" name="FIO" th:field="*{FIO}" class="form-control" placeholder="ФИО" required><br>
+    <input type="text" name="passport" th:field="*{passport}" class="form-control" placeholder="Паспорт" required><br>
+    <input type="text" name="phone" th:field="*{phone}" class="form-control" placeholder="Номер телефона" required><br>
+    <input type="submit" value="Отправить">
+</form>
+
+<a href="/registration" class="mx-auto">Регистрация?</a>
+</body>
+</html>

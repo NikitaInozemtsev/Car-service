@@ -1,5 +1,6 @@
 package serv.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,4 +28,9 @@ public class OrderWork {
 
     @Column(name = "price")
     private int price;
+
+    @ManyToOne
+    @JoinColumn(name="order_id", insertable = false, updatable = false)
+    @JsonIgnore
+    public Order order;
 }

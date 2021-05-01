@@ -32,7 +32,7 @@ public class Car {
     private String stateNumber;
 
     @Column(name = "year")
-    private int year;
+    private String year;
 
     @Column(name = "info")
     private String info;

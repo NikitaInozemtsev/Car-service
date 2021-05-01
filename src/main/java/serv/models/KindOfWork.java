@@ -26,7 +26,7 @@ public class KindOfWork {
     private String description;
 
     @Column(name = "start_price")
-    private String startPrice;
+    private int startPrice;
 
     //in hours
     @Column(name = "lead_time")

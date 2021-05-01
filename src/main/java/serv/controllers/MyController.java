@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import serv.models.*;
 import serv.sevices.*;
@@ -28,6 +29,9 @@ public class MyController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private OrderWorkService orderWorkService;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login() {
@@ -56,15 +60,15 @@ public class MyController {
     }
 
     @RequestMapping(value = "/createowner", method = RequestMethod.POST)
-    @ResponseBody
-    public void createOwner(@RequestBody Owner a) {
-        ownerService.createOwner(a);
+    public String createOwner(@ModelAttribute Owner owner) {
+        ownerService.createOwner(owner);
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/createcar", method = RequestMethod.POST)
-    @ResponseBody
-    public void createCar(@RequestBody Car a) {
-        carService.createCar(a);
+    public String createCar(@ModelAttribute Car car) {
+        carService.createCar(car);
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/getworks", method = RequestMethod.GET)
@@ -73,8 +77,11 @@ public class MyController {
     }
 
     @RequestMapping(value = "/createorder", method = RequestMethod.POST)
-    //@ResponseBody
-    public void createOrder(int carId, int ownerId, int[] works, int[] price) {
+    @ResponseBody
+    public void createOrder(@RequestParam(value = "car", required = true) int carId,
+                            @RequestParam(value = "owner", required = true) int ownerId,
+                            @RequestParam(value = "work", required = true) int[] works,
+                            @RequestParam(value = "price", required = true) int[] price) {
         Order a = new Order();
         a.setCarId(carId);
         a.setOwnerId(ownerId);
@@ -85,7 +92,22 @@ public class MyController {
             b.setOrderId(a.getId());
             b.setWorkId(works[i]);
             b.setPrice(price[i]);
+            orderWorkService.createOrderWork(b);
         }
     }
 
+    @RequestMapping(value = "/getorders", method = RequestMethod.GET)
+    public ResponseEntity<List<Order>> getOrders() {
+        return new ResponseEntity<List<Order>>(orderService.getOrders(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String main(Model model) {
+        model.addAttribute("cars", carService.getCars());
+        model.addAttribute("owners", ownerService.getOwners());
+        model.addAttribute("works", workService.getWorks());
+        model.addAttribute("car", new Car());
+        model.addAttribute("owner", new Owner());
+        return "index";
+    }
 }
