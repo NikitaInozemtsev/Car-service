@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content>
+    <meta name="author" content>
+    <title>Delete User</title>
+    <link rel="stylesheet" href="https://snipp.ru/cdn/chosen/1.8.7/chosen.min.css">
+    <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://snipp.ru/cdn/chosen/1.8.7/chosen.jquery.min.js"></script>
+
+    <script>
+    $(document).ready(function(){
+        $('#user').chosen({
+            width: '100%',
+            no_results_text: 'Совпадений не найдено',
+            placeholder_text_single: 'Выберите Пользователя'
+        });
+    });
+    </script>
+</head>
+<body>
+<div class="container">
+    <form class="form-signin" role="form" th:action="@{/admin/deleteuser}" th:method="post" th:object="${user}">
+
+        <select class="js-chosen" name="user" id="user" th:name="user" required>
+            <option value=""></option>
+            <option th:each="user : ${users}" th:value="${user.id}">
+                <span th:text="${user.id}"></span>
+                <span th:text="${user.username}"></span>
+            </option>
+        </select> <br>
+        <input type="submit" name="Отправить">
+    </form>
+
+</div>
+</body>
+</html>

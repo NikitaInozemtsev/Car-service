@@ -20,7 +20,8 @@
                 alert("Пароли не совпадают!");
             else {
                 var form = $("form");
-                form.submit()
+
+                  form.submit()
 
             }
         }
@@ -29,7 +30,7 @@
 </head>
 <body>
 <div class="container">
-    <form class="form-signin" role="form" th:action="@{/registration}" th:method="post" th:object="${user}">
+    <form class="form-signin" role="form" th:action="@{/admin/registration}" th:method="post" th:object="${user}">
         <h2 class="form-signin-heading">Please sign up</h2>
         <p>
             <label for="username" class="sr-only">Name</label>

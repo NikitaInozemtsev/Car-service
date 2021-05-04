@@ -18,11 +18,11 @@ import java.util.Set;
 @Getter
 @Setter
 public class User implements UserDetails {
-
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    @Id
+
     @Column(name = "username", unique = true)
     private String username;
 

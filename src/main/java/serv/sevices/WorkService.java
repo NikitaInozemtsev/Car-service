@@ -19,4 +19,8 @@ public class WorkService {
     public void createKindOfWork(KindOfWork a) {
         reps.save(a);
     }
+
+    public void delete(int id) {
+        reps.delete(reps.findById(id).get());
+    }
 }

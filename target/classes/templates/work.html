@@ -1,0 +1,23 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content>
+    <meta name="author" content>
+    <title>Create new kind of work</title>
+</head>
+<body>
+
+    <form  role="form" th:action="@{/admin/creatework}" th:method="post" th:object="${kindOfWork}">
+        <input type="text" name="name" th:field="*{name}" class="form-control" placeholder="Имя услуги" required><br>
+        <input type="text" name="description" th:field="*{description}" class="form-control" placeholder="Описание услуги" required><br>
+        <input type="text" name="startPrice" th:field="*{startPrice}" class="form-control" placeholder="Начальная цена услуги" required><br>
+        <input type="text" name="leadTime" th:field="*{leadTime}" class="form-control" placeholder="Время выполнения(в часах)" required><br>
+        <input type="text" name="guarantee" th:field="*{guarantee}" class="form-control" placeholder="Гарантия(в днях)" required><br>
+        <input type="submit" value="Отправить">
+    </form>
+
+</body>
+</html>

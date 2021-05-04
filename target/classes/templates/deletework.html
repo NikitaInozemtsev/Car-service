@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content>
+    <meta name="author" content>
+    <title>Delete Kind Of Work</title>
+    <link rel="stylesheet" href="https://snipp.ru/cdn/chosen/1.8.7/chosen.min.css">
+    <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://snipp.ru/cdn/chosen/1.8.7/chosen.jquery.min.js"></script>
+
+    <script>
+    $(document).ready(function(){
+        $('#work').chosen({
+            width: '100%',
+            no_results_text: 'Совпадений не найдено',
+            placeholder_text_single: 'Выберите Пользователя'
+        });
+    });
+    </script>
+</head>
+<body>
+<div class="container">
+    <form class="form-signin" role="form" th:action="@{/admin/deletework}" th:method="post" th:object="${work}">
+
+        <select class="js-chosen" name="work" id="work" th:name="work" required>
+            <option value=""></option>
+            <option th:each="work : ${works}" th:value="${work.id}">
+                <span th:text="${work.id}"></span>
+                <span th:text="${work.name}"></span>
+                <span th:text="${work.description}"></span>
+            </option>
+        </select> <br>
+        <input type="submit" name="Отправить">
+    </form>
+
+</div>
+</body>
+</html>
