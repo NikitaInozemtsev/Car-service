@@ -26,7 +26,7 @@
         $('#work').chosen({
             width: '100%',
             no_results_text: 'Совпадений не найдено',
-            placeholder_text_single: 'Выберите услуги'
+            placeholder_text_multiple: 'Выберите услуги'
         });
         $('#newcar').toggle();
         $('#newowner').toggle();
@@ -108,7 +108,7 @@
 
 <select class="js-chosen" multiple name="work" th:name="work" id="work" required>
     <option value=""></option>
-    <option class="ev" th:each="work : ${works}" th:value="${work.id}">
+    <option class="ev" th:each="work : ${works}" th:value="${work.id}" >
         <span th:text="${work.id}"></span>
         <span th:text="${work.name}"></span>
         <span th:text="${work.startPrice}"></span>

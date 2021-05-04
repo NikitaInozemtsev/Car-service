@@ -3,6 +3,7 @@ package serv.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -70,8 +71,12 @@ public class MyController {
 
     @RequestMapping(value = "/admin/isusername", method = RequestMethod.GET)
     public ResponseEntity<Boolean> isUsernameExist(@RequestParam String username) {
-        userService.loadUserByUsername(username);
-        return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+        try {
+            userService.loadUserByUsername(username);
+            return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+        }catch (UsernameNotFoundException e) {
+            return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+        }
     }
 
     @RequestMapping(value = "/admin/creatework", method = RequestMethod.GET)
@@ -87,19 +92,17 @@ public class MyController {
 
     @RequestMapping(value = "/admin/deleteuser", method = RequestMethod.GET)
     public String windowDeleteUser(Model model) {
-        model.addAttribute("users", userService.getUsers());
+        model.addAttribute("users", userService.getUsers().listIterator(1));
         return "deleteuser";
     }
 
     @RequestMapping(value = "/admin/deleteuser", method = RequestMethod.POST)
-    public Object deleteUser(@RequestParam(value = "user", required = true) int id) {
-        if (id != 1) {
-            userService.deleteUser(id);
-            return "redirect:/admin";
+    public Object deleteUser(@RequestParam(value = "user", required = true) int[] id) {
+        for (int i : id) {
+            userService.deleteUser(i);
+
         }
-        else {
-            return new ResponseEntity<String>("Нельзя удалить admin-а", HttpStatus.OK);
-        }
+        return "redirect:/admin";
     }
 
     @RequestMapping(value = "/admin/deletework", method = RequestMethod.GET)
@@ -109,8 +112,10 @@ public class MyController {
     }
 
     @RequestMapping(value = "/admin/deletework", method = RequestMethod.POST)
-    public Object deleteWork(@RequestParam(value = "work", required = true) int id) {
-        workService.delete(id);
+    public Object deleteWork(@RequestParam(value = "work", required = true) int[] id) {
+        for (int i : id) {
+            workService.delete(i);
+        }
         return "redirect:/admin";
     }
 

@@ -14,15 +14,28 @@
         async function checkPasswordMatch() {
             var password = $("#password").val();
             var confirmPassword = $("#passwordConfirm").val();
-
+            var username = $("#username").val();
+            if (password != "" && username != "" && confirmPassword != "") {
 
             if (password != confirmPassword)
                 alert("Пароли не совпадают!");
             else {
                 var form = $("form");
 
-                  form.submit()
+                let response = await fetch(`/admin/isusername?username=${username}`);
+                if (response.ok) {
+                    var text = await response.text();
+                    if(text == "true") {
+                        alert("Имя пользователя уже занято!");
+                    }
+                    else {
+                      form.submit()
+                    }
 
+                }
+
+
+            }
             }
         }
 

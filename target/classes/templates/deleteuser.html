@@ -16,7 +16,7 @@
         $('#user').chosen({
             width: '100%',
             no_results_text: 'Совпадений не найдено',
-            placeholder_text_single: 'Выберите Пользователя'
+            placeholder_text_multiple: 'Выберите Пользователя'
         });
     });
     </script>
@@ -25,7 +25,7 @@
 <div class="container">
     <form class="form-signin" role="form" th:action="@{/admin/deleteuser}" th:method="post" th:object="${user}">
 
-        <select class="js-chosen" name="user" id="user" th:name="user" required>
+        <select class="js-chosen" multiple name="user" id="user" th:name="user" required>
             <option value=""></option>
             <option th:each="user : ${users}" th:value="${user.id}">
                 <span th:text="${user.id}"></span>
