@@ -19,4 +19,8 @@ public class CarService {
     public void createCar(Car a) {
         reps.save(a);
     }
+
+    public Car getCarById(int carId) {
+        return reps.findById(carId).get();
+    }
 }

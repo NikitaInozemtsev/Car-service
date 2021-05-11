@@ -1,9 +1,6 @@
 package serv.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -36,4 +33,14 @@ public class Car {
 
     @Column(name = "info")
     private String info;
+
+    @Override
+    public String toString() {
+        return "марка=" + brand  +
+                ", модель=" + model +
+                ", тех. паспорт=" + technicalPassport  +
+                ", номер машины=" + stateNumber  +
+                ", год выпуска=" + year +
+                ", информация=" + info ;
+    }
 }

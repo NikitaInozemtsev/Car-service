@@ -7,11 +7,11 @@ serv\configuration\SecurityConfig.class
 serv\controllers\MyController.class
 serv\repositories\CarRepository.class
 serv\repositories\UserRepository.class
-serv\models\OrderWork.class
 serv\models\Car.class
 serv\models\Order.class
 serv\RunApp.class
 serv\repositories\OrderWorkRepository.class
 serv\sevices\UserService.class
 serv\repositories\KindOfWorkRepository.class
+serv\models\OrderWork.class
 serv\repositories\OrderRepository.class

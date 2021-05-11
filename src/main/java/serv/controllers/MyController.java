@@ -13,6 +13,7 @@ import serv.models.*;
 import serv.sevices.*;
 
 import java.security.Principal;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -135,8 +136,11 @@ public class MyController {
     }
 
     @RequestMapping(value = "/getorders", method = RequestMethod.GET)
-    public ResponseEntity<List<Order>> getOrders() {
-        return new ResponseEntity<List<Order>>(orderService.getOrders(), HttpStatus.OK);
+    public String getOrders(Model model) {
+        List<Order> a = orderService.getOrders();
+        a.sort(Comparator.comparing(Order::getDate).reversed());
+        model.addAttribute("orders", a);
+        return "order";
     }
 
     @RequestMapping(value = "/createowner", method = RequestMethod.POST)
@@ -152,23 +156,23 @@ public class MyController {
     }
 
     @RequestMapping(value = "/createorder", method = RequestMethod.POST)
-    @ResponseBody
-    public void createOrder(@RequestParam(value = "car", required = true) int carId,
-                            @RequestParam(value = "owner", required = true) int ownerId,
-                            @RequestParam(value = "work", required = true) int[] works,
-                            @RequestParam(value = "price", required = true) int[] price) {
+    public String createOrder(@RequestParam(value = "car", required = true) int carId,
+                              @RequestParam(value = "owner", required = true) int ownerId,
+                              @RequestParam(value = "work", required = true) int[] works,
+                              @RequestParam(value = "price", required = true) int[] price) {
         Order a = new Order();
-        a.setCarId(carId);
-        a.setOwnerId(ownerId);
+        a.setCar(carService.getCarById(carId));
+        a.setOwner(ownerService.getOwnerById(ownerId));
         orderService.createOrder(a);
 
         for (int i = 0; i < works.length; i++) {
             OrderWork b = new OrderWork();
             b.setOrderId(a.getId());
-            b.setWorkId(works[i]);
+            b.setKindOfWork(workService.getWorkById(works[i]));
             b.setPrice(price[i]);
             orderWorkService.createOrderWork(b);
         }
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/changepassword", method = RequestMethod.GET)

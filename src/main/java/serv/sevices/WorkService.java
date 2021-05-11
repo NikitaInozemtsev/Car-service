@@ -23,4 +23,8 @@ public class WorkService {
     public void delete(int id) {
         reps.delete(reps.findById(id).get());
     }
+
+    public KindOfWork getWorkById(int kindOfWorkId) {
+        return reps.findById(kindOfWorkId).get();
+    }
 }

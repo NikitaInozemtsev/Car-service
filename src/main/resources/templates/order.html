@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content>
+    <meta name="author" content>
+    <title>Orders</title>
+
+</head>
+<body>
+
+
+
+<table border="1">
+    <tr>
+        <th>Id</th>
+        <th>Машина</th>
+        <th>Клиент</th>
+        <th>Дата</th>
+        <th>Услуги</th>
+    </tr>
+    <tr th:each="order : ${orders}">
+        <td th:text="${order.id}"></td>
+        <td th:text="${order.car}"></td>
+        <td th:text="${order.owner}"></td>
+        <td th:text="${order.date}" width="80px"></td>
+        <td th:text="${order.works}"></td>
+    </tr>
+</table>
+
+
+</body>
+</html>

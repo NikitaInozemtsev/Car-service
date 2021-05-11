@@ -1,10 +1,7 @@
 package serv.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -23,8 +20,9 @@ public class OrderWork {
     @Column(name = "order_id")
     private int orderId;
 
-    @Column(name = "work_id")
-    private int workId;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "work_id", referencedColumnName = "id")
+    private KindOfWork kindOfWork;
 
     @Column(name = "price")
     private int price;
@@ -33,4 +31,11 @@ public class OrderWork {
     @JoinColumn(name="order_id", insertable = false, updatable = false)
     @JsonIgnore
     public Order order;
+
+    @Override
+    public String toString() {
+        return "{"+kindOfWork +
+                ", цена=" + price + " руб."
+                +"}";
+    }
 }

@@ -35,4 +35,11 @@ public class KindOfWork {
     //in days
     @Column(name = "guarantee")
     private int guarantee;
+
+    @Override
+    public String toString() {
+        return "имя=" + name +
+                ", время выполнения=" + leadTime + " ч." +
+                ", гарантия=" + guarantee + " д.";
+    }
 }

@@ -21,11 +21,13 @@ public class Order {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "car_id")
-    private int carId;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "car_id", referencedColumnName = "id")
+    private Car car;
 
-    @Column(name = "owner_id")
-    private int ownerId;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "owner_id", referencedColumnName = "id")
+    private Owner owner;
 
     @Column(name = "date")
     private Date date = new Date();

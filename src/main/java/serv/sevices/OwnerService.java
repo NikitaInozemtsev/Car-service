@@ -19,4 +19,8 @@ public class OwnerService {
     public void createOwner(Owner a) {
         reps.save(a);
     }
+
+    public Owner getOwnerById(int ownerId) {
+        return reps.findById(ownerId).get();
+    }
 }
