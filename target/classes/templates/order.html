@@ -7,13 +7,14 @@
     <meta name="description" content>
     <meta name="author" content>
     <title>Orders</title>
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
 
 
 
-<table border="1">
+<table class="table table-bordered">
+    <thead class="thead-dark">
     <tr>
         <th>Id</th>
         <th>Машина</th>
@@ -21,13 +22,17 @@
         <th>Дата</th>
         <th>Услуги</th>
     </tr>
-    <tr th:each="order : ${orders}">
+    </thead>
+    <tbody>
+        <tr th:each="order : ${orders}">
         <td th:text="${order.id}"></td>
         <td th:text="${order.car}"></td>
         <td th:text="${order.owner}"></td>
-        <td th:text="${order.date}" width="80px"></td>
+        <td th:text="${order.date}" width="110px"></td>
         <td th:text="${order.works}"></td>
     </tr>
+    </tbody>
+
 </table>
 
 
