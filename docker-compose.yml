@@ -1,0 +1,20 @@
+
+version: '3.2'
+services:
+    postgres_db:
+        container_name: postgres_db
+        image: 'postgres'
+        environment:
+            POSTGRES_DB: db
+            POSTGRES_PASSWORD: root
+        ports:
+            - '3301:3306'
+        restart: always
+    spring_db:
+        build: .
+        ports:
+            - '8085:8085'
+        depends_on:
+            - postgres_db
+            
+            

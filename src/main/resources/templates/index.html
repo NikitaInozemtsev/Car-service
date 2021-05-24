@@ -7,29 +7,82 @@
     <meta name="description" content>
     <meta name="author" content>
     <title>Main</title>
-    <link rel="stylesheet" href="https://snipp.ru/cdn/chosen/1.8.7/chosen.min.css">
-    <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://snipp.ru/cdn/chosen/1.8.7/chosen.jquery.min.js"></script>
 
-    <script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+
+    </head>
+<body>
+
+<div class="container">
+<form class="was-validated" action="#" th:action="@{/createorder}" method="post">
+    <div class="form-group my-3">
+        <select  class="selectpicker" name="car" id="car" th:name="car" data-live-search="true" data-width="100%" required>
+            <option value="">Выберите машину</option>
+            <option th:each="car : ${cars}" th:value="${car.id}" th:text="|${car.id} ${car.brand} ${car.model} ${car.technicalPassport} ${car.stateNumber} ${car.year} ${car.info}|">
+            </option>
+        </select>
+    </div>
+
+    <button id="btn" class="btn btn-light">Добавить машину</button>
+
+    <div class="form-group my-3">
+        <select class="selectpicker"  name="owner" th:name="owner" id="owner" data-live-search="true" data-width="100%"  required>
+            <option value="">Выберите клиента</option>
+            <option th:each="owner : ${owners}" th:value="${owner.id}" th:text="|${owner.id} ${owner.FIO} ${owner.passport} ${owner.phone}|">
+
+            </option>
+        </select>
+    </div>
+    <button id="btn1" class="btn btn-light">Добавить клиента</button>
+<div class="form-group my-3">
+<select class="selectpicker" multiple name="work" th:name="work" id="work" data-live-search="true" data-width="100%" required>
+
+    <option class="ev" th:each="work : ${works}" th:value="${work.id}">
+        <span th:text="${work.id}"></span>
+        <span th:text="${work.name}"></span>
+        <span th:text="${work.startPrice}"></span>
+    </option>
+</select>
+</div>
+<div id="container"></div>
+
+<input type="submit" class="btn btn-primary" value="Отправить">
+
+</form>
+
+<form class="was-validated my-3" name="Машина" action="#" id="newcar" th:action="@{/createcar}" th:object="${car}" method="post">
+    <input type="text" name="username" th:field="*{brand}" class="form-control form-control-sm" placeholder="Марка машины" required>
+    <input type="text" name="model" th:field="*{model}" class="form-control form-control-sm" placeholder="Модель машины" required>
+    <input type="text" name="technicalPassport" th:field="*{technicalPassport}" class="form-control form-control-sm" placeholder="Тех. паспорт" required>
+    <input type="text" name="stateNumber" th:field="*{stateNumber}" class="form-control form-control-sm" placeholder="Гос. номер" required>
+    <input type="text" name="year" th:field="*{year}" class="form-control form-control-sm" placeholder="Год выпуска машины">
+    <input type="text" name="info" th:field="*{info}" class="form-control form-control-sm" placeholder="Доп. информация"><br>
+    <input type="submit" class="btn btn-secondary" value="Отправить">
+</form>
+
+
+<form name="Клиент" class="was-validated my-3" action="#" id="newowner" th:action="@{/createowner}" th:object="${owner}" method="post">
+    <input type="text" name="FIO" th:field="*{FIO}" class="form-control form-control-sm" placeholder="ФИО" required>
+    <input type="text" name="passport" th:field="*{passport}" class="form-control form-control-sm" placeholder="Паспорт" required>
+    <input type="text" name="phone" th:field="*{phone}" class="form-control form-control-sm" placeholder="Номер телефона" required><br>
+    <input type="submit" class="btn btn-secondary" value="Отправить">
+</form>
+
+<br>
+<a href="/changepassword" >Сменить пароль</a><br>
+    <span>Текущий пользователь <strong th:switch="${user}"> <a th:case="admin" href="/admin">admin</a> <span th:case="*" th:text="${user}"></span> </strong></span><br>
+<a href="/getorders">Список заказов</a> <br>
+<a href="/logout">Выход</a>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+<script>
     $(document).ready(function(){
-        $('#car').chosen({
-            width: '100%',
-            no_results_text: 'Совпадений не найдено',
-            placeholder_text_single: 'Выберите машину'
-        });
-        $('#owner').chosen({
-            width: '100%',
-            no_results_text: 'Совпадений не найдено',
-            placeholder_text_single: 'Выберите клиента'
-        });
-        $('#work').chosen({
-            width: '100%',
-            no_results_text: 'Совпадений не найдено',
-            placeholder_text_multiple: 'Выберите услуги'
-        });
         $('#newcar').toggle();
         $('#newowner').toggle();
+        $('#work').selectpicker({noneSelectedText: 'Выберите услуги'});
     });
     $(function(){
     $('#work').change(function(e) {
@@ -48,13 +101,12 @@
         for (var i = 0; i < b.length; i++) {
         container.appendChild(document.createTextNode(b[i] + " Цена:"));
         var input = document.createElement("input");
+        input.className ="form-control form-control-sm";
         input.required = "required";
         input.type = "text";
         input.name = "price";
         //input.th:name="price";
         container.appendChild(input);
-               // Append a line break
-        container.appendChild(document.createElement("br"));
         }
     });
     });
@@ -72,76 +124,5 @@
     });
 
     </script>
-    </head>
-<body>
-
-<form action="#" th:action="@{/createorder}" method="post">
-<select class="js-chosen" name="car" id="car" th:name="car" required>
-    <option value=""></option>
-    <option th:each="car : ${cars}" th:value="${car.id}">
-        <span th:text="${car.id}"></span>
-        <span th:text="${car.brand}"></span>
-        <span th:text="${car.model}"></span>
-        <span th:text="${car.technicalPassport}"></span>
-        <span th:text="${car.stateNumber}"></span>
-        <span th:text="${car.year}"></span>
-        <span th:text="${car.info}"></span>
-    </option>
-</select>
-
-    <button id="btn">Добавить машину</button>
-
-
-
-
-<select class="js-chosen" name="owner" th:name="owner" id="owner" required>
-    <option value=""></option>
-    <option th:each="owner : ${owners}" th:value="${owner.id}">
-        <span th:text="${owner.id}"></span>
-        <span th:text="${owner.FIO}"></span>
-        <span th:text="${owner.passport}"></span>
-        <span th:text="${owner.phone}"></span>
-    </option>
-</select>
-
-    <button id="btn1">Добавить клиента</button>
-
-<select class="js-chosen" multiple name="work" th:name="work" id="work" required>
-    <option value=""></option>
-    <option class="ev" th:each="work : ${works}" th:value="${work.id}" >
-        <span th:text="${work.id}"></span>
-        <span th:text="${work.name}"></span>
-        <span th:text="${work.startPrice}"></span>
-    </option>
-</select>
-
-<div id="container"></div>
-
-<input type="submit" value="Отправить">
-
-</form>
-
-<form name="Машина" action="#" id="newcar" th:action="@{/createcar}" th:object="${car}" method="post">
-    <input type="text" name="username" th:field="*{brand}" class="form-control" placeholder="Марка машины" required><br>
-    <input type="text" name="model" th:field="*{model}" class="form-control" placeholder="Модель машины" required><br>
-    <input type="text" name="technicalPassport" th:field="*{technicalPassport}" class="form-control" placeholder="Тех. паспорт" required><br>
-    <input type="text" name="stateNumber" th:field="*{stateNumber}" class="form-control" placeholder="Гос. номер" required><br>
-    <input type="text" name="year" th:field="*{year}" class="form-control" placeholder="Год выпуска машины"><br>
-    <input type="text" name="info" th:field="*{info}" class="form-control" placeholder="Доп. информация"><br>
-    <input type="submit" value="Отправить"> <br>
-</form>
-
-<form name="Клиент" action="#" id="newowner" th:action="@{/createowner}" th:object="${owner}" method="post">
-    <input type="text" name="FIO" th:field="*{FIO}" class="form-control" placeholder="ФИО" required><br>
-    <input type="text" name="passport" th:field="*{passport}" class="form-control" placeholder="Паспорт" required><br>
-    <input type="text" name="phone" th:field="*{phone}" class="form-control" placeholder="Номер телефона" required><br>
-    <input type="submit" value="Отправить">
-</form>
-
-<br>
-<a href="/changepassword">Сменить пароль</a>
-<p>Текущий пользователь <strong th:text="${user}"></strong></p>
-<a href="/getorders">Список заказов</a> <br>
-<a href="/logout">Выход</a>
 </body>
 </html>

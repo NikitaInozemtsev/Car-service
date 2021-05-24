@@ -7,35 +7,32 @@
     <meta name="description" content>
     <meta name="author" content>
     <title>Delete Kind Of Work</title>
-    <link rel="stylesheet" href="https://snipp.ru/cdn/chosen/1.8.7/chosen.min.css">
-    <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://snipp.ru/cdn/chosen/1.8.7/chosen.jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
 
-    <script>
-    $(document).ready(function(){
-        $('#work').chosen({
-            width: '100%',
-            no_results_text: 'Совпадений не найдено',
-            placeholder_text_multiple: 'Выберите Пользователя'
-        });
-    });
-    </script>
 </head>
 <body>
-<div class="container">
-    <form class="form-signin" role="form" th:action="@{/admin/deletework}" th:method="post" th:object="${work}">
-
-        <select class="js-chosen" multiple name="work" id="work" th:name="work" required>
-            <option value=""></option>
+<div class="container my-3">
+    <form class="was-validated" role="form" th:action="@{/admin/deletework}" th:method="post" th:object="${work}">
+        <select class="selectpicker" multiple name="work" id="work" th:name="work" data-live-search="true" data-width="100%" required>
             <option th:each="work : ${works}" th:value="${work.id}">
                 <span th:text="${work.id}"></span>
                 <span th:text="${work.name}"></span>
                 <span th:text="${work.description}"></span>
             </option>
-        </select> <br>
-        <input type="submit" name="Отправить">
+        </select> <br> <br>
+        <input type="submit" class="btn btn-primary" name="Отправить">
     </form>
-
+    <a href="/admin">Назад</a>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#work').selectpicker({noneSelectedText: 'Выберите услугу'});
+    });
+</script>
 </body>
 </html>
