@@ -14,9 +14,9 @@
     <form class="was-validated"  role="form" th:action="@{/admin/creatework}" th:method="post" th:object="${kindOfWork}">
         <input type="text" name="name" th:field="*{name}" class="form-control form-control-sm" placeholder="Имя услуги" required>
         <input type="text" name="description" th:field="*{description}" class="form-control form-control-sm" placeholder="Описание услуги" required>
-        <input type="text" name="startPrice" th:field="*{startPrice}" class="form-control form-control-sm" placeholder="Начальная цена услуги" required>
-        <input type="text" name="leadTime" th:field="*{leadTime}" class="form-control form-control-sm" placeholder="Время выполнения(в часах)" required>
-        <input type="text" name="guarantee" th:field="*{guarantee}" class="form-control form-control-sm" placeholder="Гарантия(в днях)" required><br>
+        <input type="number" name="startPrice" th:field="*{startPrice}" class="form-control form-control-sm" placeholder="Начальная цена услуги" required>
+        <input type="number" name="leadTime" th:field="*{leadTime}" class="form-control form-control-sm" placeholder="Время выполнения(в часах)" required>
+        <input type="number" name="guarantee" th:field="*{guarantee}" class="form-control form-control-sm" placeholder="Гарантия(в днях)" required><br>
         <input type="submit" class="btn btn-primary" value="Отправить">
     </form>
     <a href="/admin">Назад</a>

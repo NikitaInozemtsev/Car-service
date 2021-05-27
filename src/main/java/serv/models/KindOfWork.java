@@ -26,15 +26,15 @@ public class KindOfWork {
     private String description;
 
     @Column(name = "start_price")
-    private int startPrice;
+    private Integer startPrice;
 
     //in hours
     @Column(name = "lead_time")
-    private int leadTime;
+    private Integer leadTime;
 
     //in days
     @Column(name = "guarantee")
-    private int guarantee;
+    private Integer guarantee;
 
     @Override
     public String toString() {
