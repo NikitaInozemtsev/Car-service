@@ -20,7 +20,7 @@ public class OrderWork {
     @Column(name = "order_id")
     private int orderId;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "work_id", referencedColumnName = "id")
     private KindOfWork kindOfWork;
 
